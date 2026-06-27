@@ -1,0 +1,65 @@
+## Installation
+
+1. Download `SigenergyPlantDriver.groovy` from the **drivers** folder in this repository.
+
+2. In Hubitat, navigate to:
+
+   **Drivers Code → + New Driver**
+
+3. Copy and paste the driver source into the editor.
+
+4. Click **Save**.
+
+5. Click **Compile** and confirm there are no compilation errors.
+
+6. Navigate to:
+
+   **Devices → + Add Virtual Device**
+
+7. Enter a device name (for example, **Sigenergy Plant**).
+
+8. Select **Sigenergy Plant Driver** as the device type.
+
+9. Click **Save Device**.
+
+10. Open the newly created device.
+
+11. Configure the driver as described below.
+
+Detailed installation notes are available in **docs/Installation.md**.
+
+---
+
+## Configuration
+
+Open the device and enter the following settings:
+
+| Setting                     | Description                                             |
+| --------------------------- | ------------------------------------------------------- |
+| **IP Address**              | IP address of the Sigenergy Gateway / Energy Controller |
+| **TCP Port**                | Modbus TCP port (normally **502**)                      |
+| **Battery Slave ID**        | Battery Modbus slave ID (normally **1**)                |
+| **Poll Interval (minutes)** | Polling frequency                                       |
+| **Debug Logging**           | Enable only when diagnosing problems                    |
+| **Measurements**            | Tick only the measurements you wish to monitor          |
+
+After changing any settings:
+
+1. Click **Save Preferences**.
+2. Wait for the driver to reconnect automatically.
+3. Verify that **Current States** begin updating.
+4. If values do not appear within one polling interval, use the **Refresh** command.
+
+### Recommended Initial Configuration
+
+For most installations, enable:
+
+* Battery State of Charge
+* Grid Power
+* Plant Power
+* Solar Power
+* Battery Power
+* Third Party PV Power
+* Total Load Power
+
+Additional measurements can be enabled as required. Selecting only the measurements you need reduces Modbus traffic and polling time.
