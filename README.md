@@ -168,17 +168,8 @@ Added:
 
 ---
 
-## Contributing
-
-Bug reports, enhancement requests and pull requests are welcome.
-
-Please include:
-
-* Hubitat firmware version
-* Sigenergy firmware version
-* Driver version
-* Relevant log output
-* Description of the issue
+## Support
+Support is unable to be provided, but documentation has been provided to allow the addition of additional Sigenergy registers as required (see Conributing below)
 
 ---
 
