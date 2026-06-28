@@ -166,6 +166,15 @@ Added:
 * Phase A Current
 * Power Factor
 
+### Version 2.2.0
+
+Added text status attributes for:
+* EMS mode
+* Grid sensor status
+* Grid connection status
+* Plant running state.
+* Numeric status attributes remain unchanged for Rule Machine compatibility.
+
 ---
 
 ## Support
@@ -183,8 +192,9 @@ See the LICENSE file for details.
 
 ## Contributing
 
-Contributions are invite.  Documents have been provided outlining the structure of the driver (CONTRIBUTING.md).
-A second document desvribes how you can add further registers to meet your needs 
+Contributions are invited.
+Documents have been provided outlining the structure of the driver (CONTRIBUTING.md).
+A second document describes how you can add further registers to meet your needs 
 
 ---
 
