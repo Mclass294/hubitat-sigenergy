@@ -164,7 +164,6 @@ Added:
 * Phase A Voltage
 * Phase A Current
 * Power Factor
-
 Renamed driver to a version-independent filename.
 ---
 
