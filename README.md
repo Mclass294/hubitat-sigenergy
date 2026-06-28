@@ -61,6 +61,10 @@ The driver supports the following measurements:
 | Available Discharge Energy     |    30597 |
 | Battery State of Health        |    30602 |
 | Battery Temperature            |    30603 |
+| Grid Frequency                 |    31002 |
+| Phase A Voltage                |    31011 |
+| Phase A Current                |    31017 |
+| Power Factor                   |    31023 |
 
 ---
 
