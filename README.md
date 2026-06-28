@@ -141,8 +141,6 @@ If communication fails:
 * Verify TCP port 502 is accessible.
 * Ensure Hubitat can reach the Sigenergy controller.
 
-Additional troubleshooting information is available in **docs/Troubleshooting.md**.
-
 ---
 
 ## Version History
