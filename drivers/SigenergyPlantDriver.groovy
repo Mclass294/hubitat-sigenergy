@@ -14,11 +14,13 @@
  * limitations under the License.
  *
  * Driver: Sigenergy Plant Driver
- * Version: 2.1.0
+ * Version: 2.2.0
  * Author: mclass
  * Reference: Sigenergy Modbus Protocol V2.9
  *
  * Release history:
+ * 2.2.0 - Added text status attributes for EMS mode, grid sensor status, grid connection status and plant running state.
+ *       - Numeric status attributes remain unchanged for Rule Machine compatibility.
  * 2.1.0 - Added Grid Frequency (31002), Phase A Voltage (31011), Phase A Current (31017) and Power Factor (31023).
  *       - Added optional measurements enabled by default.
  * 2.0.0 - Refactored register polling to a single register definition table.
@@ -33,8 +35,42 @@
 
 import groovy.transform.Field
 
-@Field static final String DRIVER_VERSION = "2.1.0 (Protocol V2.9)"
+@Field static final String DRIVER_VERSION = "2.2.0 (Protocol V2.9)"
 @Field static final Integer PLANT_SLAVE_ID = 247
+
+@Field static final Map<String, String> STATUS_TEXT_ATTRIBUTES = [
+    emsMode          : "emsModeText",
+    gridSensorStatus : "gridSensorStatusText",
+    onOffGridStatus  : "onOffGridStatusText",
+    plantRunningState: "plantRunningStateText"
+]
+
+@Field static final Map<String, Map<Integer, String>> STATUS_TEXT_LOOKUPS = [
+    emsMode: [
+        0: "Max self-consumption",
+        1: "AI Mode",
+        2: "TOU",
+        5: "Full Feed-in to Grid",
+        7: "Remote EMS mode",
+        9: "Custom"
+    ],
+    gridSensorStatus: [
+        0: "Not connected",
+        1: "Connected"
+    ],
+    onOffGridStatus: [
+        0: "On grid",
+        1: "Off grid (auto)",
+        2: "Off grid (manual)"
+    ],
+    plantRunningState: [
+        0: "Standby",
+        1: "Running",
+        2: "Fault",
+        3: "Shutdown",
+        7: "Environmental Abnormality"
+    ]
+]
 
 @Field static final List<Map> REGISTER_DEFINITIONS = [
     [name: "batterySOC",                  title: "Battery State of Charge",  setting: "enableSOC",                   defaultEnabled: true,  slave: "plant",    reg: 30014, count: 1, type: "U16", scale: 10,   unit: "%"],
@@ -84,6 +120,10 @@ metadata {
         attribute "gridSensorStatus", "number"
         attribute "onOffGridStatus", "number"
         attribute "plantRunningState", "number"
+        attribute "emsModeText", "string"
+        attribute "gridSensorStatusText", "string"
+        attribute "onOffGridStatusText", "string"
+        attribute "plantRunningStateText", "string"
         attribute "batteryDailyChargeEnergy", "number"
         attribute "batteryDailyDischargeEnergy", "number"
         attribute "gridFrequency", "number"
@@ -270,6 +310,16 @@ private void sendNumericEvent(Map item, Number value) {
     } else {
         sendEvent(name: item.name, value: value)
     }
+    sendStatusTextEvent(item.name, value)
+}
+
+private void sendStatusTextEvent(String attributeName, Number value) {
+    String textAttributeName = STATUS_TEXT_ATTRIBUTES[attributeName]
+    if (!textAttributeName) return
+
+    Integer lookupValue = value.toInteger()
+    String textValue = STATUS_TEXT_LOOKUPS[attributeName]?.get(lookupValue) ?: "Unknown (${lookupValue})"
+    sendEvent(name: textAttributeName, value: textValue)
 }
 
 private void recordPollSuccess() {
@@ -291,6 +341,8 @@ private void clearMeasurementAttributes(Closure<Boolean> shouldClearRegister) {
     REGISTER_DEFINITIONS.each { Map register ->
         if (shouldClearRegister(register)) {
             deleteCurrentStateSafely(register.name)
+            String textAttributeName = STATUS_TEXT_ATTRIBUTES[register.name]
+            if (textAttributeName) deleteCurrentStateSafely(textAttributeName)
         }
     }
 }
