@@ -1,0 +1,168 @@
+# Contributing to the Sigenergy Plant Driver
+
+Thank you for your interest in contributing to the Sigenergy Plant Driver for Hubitat.
+
+This project aims to provide a robust, fully local integration for Sigenergy systems using the official Sigenergy Modbus Protocol. Contributions are welcome, particularly those that extend functionality while maintaining compatibility and reliability.
+
+---
+
+# Project Goals
+
+The primary objectives of this project are:
+
+* Native Hubitat integration
+* Local communication only (no cloud dependency)
+* Compatibility with the latest Sigenergy Modbus Protocol
+* Stable, maintainable code
+* Backward compatibility wherever practical
+
+---
+
+# Development Philosophy
+
+The driver uses a **table-driven architecture**.
+
+Most new measurements can be added by extending the register definition table without modifying the polling engine.
+
+Whenever possible:
+
+* Do **not** modify the Modbus communications.
+* Do **not** modify socket handling.
+* Do **not** modify the polling queue.
+* Do **not** duplicate existing functionality.
+* Prefer extending existing data structures.
+
+This approach keeps changes small, easy to review and low risk.
+
+---
+
+# Before Contributing
+
+Please ensure that:
+
+* The register exists in the latest Sigenergy Modbus Protocol document.
+* The register has been tested on actual hardware where possible.
+* The data type, scaling and units have been verified.
+* The change has been tested using Hubitat.
+
+---
+
+# Adding New Measurements
+
+Most new measurements require only:
+
+1. Add a new entry to `REGISTER_DEFINITIONS`
+2. Add the corresponding Hubitat attribute
+3. Increment the driver version
+4. Update `CHANGELOG.md`
+
+Preferences are generated automatically from the register definition table.
+
+---
+
+# Status Registers
+
+Where a register represents an enumerated state rather than a measured value:
+
+* Preserve the numeric attribute.
+* Add a corresponding text attribute.
+* Decode values using lookup tables.
+* Never remove or replace the numeric attribute, as Rule Machine automations may depend upon it.
+
+Example:
+
+```
+emsMode = 2
+emsModeText = TOU
+```
+
+---
+
+# Coding Guidelines
+
+Please follow the existing coding style.
+
+* Use meaningful attribute names.
+* Keep register definitions aligned for readability.
+* Avoid unnecessary refactoring.
+* Avoid introducing duplicate code.
+* Add comments where behaviour may not be obvious.
+* Maintain compatibility with current Hubitat firmware.
+
+---
+
+# Versioning
+
+This project follows Semantic Versioning.
+
+* **Major** – incompatible architectural changes
+* **Minor** – new features or supported registers
+* **Patch** – bug fixes and documentation updates
+
+Examples:
+
+* 2.1.0 – additional measurements
+* 2.2.0 – decoded status attributes
+* 2.2.1 – bug fix
+
+---
+
+# Testing
+
+Before submitting changes:
+
+* Driver compiles without errors.
+* Device preferences display correctly.
+* Polling completes successfully.
+* New attributes update correctly.
+* Existing attributes remain unaffected.
+* No additional Modbus errors are introduced.
+
+---
+
+# Documentation
+
+Please update documentation where appropriate.
+
+This may include:
+
+* README.md
+* CHANGELOG.md
+* Installation Guide
+* Configuration Guide
+* Register Reference
+* Troubleshooting Guide
+
+---
+
+# Pull Requests
+
+Pull requests should include:
+
+* A brief description of the change.
+* The Modbus register(s) affected.
+* The protocol version used.
+* Testing performed.
+* Any limitations or assumptions.
+
+Where possible, include screenshots or Hubitat logs demonstrating successful operation.
+
+---
+
+# Bug Reports
+
+Useful bug reports include:
+
+* Hubitat firmware version
+* Driver version
+* Sigenergy firmware version
+* Relevant debug log output
+* Description of expected and actual behaviour
+
+---
+
+# Acknowledgements
+
+Thank you to everyone in the Hubitat community who contributes ideas, testing and code improvements.
+
+Constructive feedback and well-tested enhancements are always appreciated.
