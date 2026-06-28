@@ -190,6 +190,13 @@ See the LICENSE file for details.
 
 ---
 
+## Contributing
+
+Contributions are invite.  Documents have been provided outlining the structure of the driver (CONTRIBUTING.md).
+A second document desvribes how you can add further registers to meet your needs 
+
+---
+
 ## Acknowledgements
 
 Developed for the Hubitat community to provide reliable local integration with Sigenergy energy systems.
