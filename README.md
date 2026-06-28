@@ -157,14 +157,15 @@ Additional troubleshooting information is available in **docs/Troubleshooting.md
 * Numeric-only measurement attributes
 * Improved readability and maintainability
 
-### Release v2.1.0
+### Version 2.1.0
 
+Renamed driver to a version-independent filename.
 Added:
 * Grid Frequency
 * Phase A Voltage
 * Phase A Current
 * Power Factor
-Renamed driver to a version-independent filename.
+
 ---
 
 ## Contributing
